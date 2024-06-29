@@ -10,13 +10,14 @@ from loguru import logger
 from scipy.io.wavfile import write
 import threading
 import time
+from multiprocessing import Process, Lock
 from nltk import word_tokenize
 
 
 class AudioBuffer:
     def __init__(self, rate):
         self.audio_buffer = np.array([], dtype=np.float32)
-        self.lock = threading.Lock()
+        self.lock = Lock()
         self.rate = rate
 
     def write(self, data):
@@ -114,16 +115,16 @@ class ASRSystem():
             self.audio_buffer, rate=rate, chunk=chunk)
 
     def start(self):
-        mic_thread = threading.Thread(
+        mic_thread = Process(
             target=self.mic_listener.start_recording)
-        infer_thread = threading.Thread(
-            target=self.asr_inference.transcribe)
+        # infer_thread = Process(
+        #     target=self.asr_inference.transcribe)
 
         mic_thread.start()
-        infer_thread.start()
+
+        self.asr_inference.transcribe()
 
         mic_thread.join()
-        infer_thread.join()
 
 
 if __name__ == "__main__":

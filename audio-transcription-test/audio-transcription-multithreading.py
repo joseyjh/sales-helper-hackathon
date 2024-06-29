@@ -73,8 +73,8 @@ class FasterWhisperASR:
                 self.next_text = ' '.join(tokens[6:])
                 self.audio_buffer.trim_from_start(segments[-1].end)
 
-            # write(f'{time.time()}.wav', self.rate,
-            #       (self.audio_buffer.read() * 32768).astype(np.int16))
+            write(f'{time.time()}.wav', self.rate,
+                  (self.audio_buffer.read() * 32768).astype(np.int16))
 
 
 class Microphone:

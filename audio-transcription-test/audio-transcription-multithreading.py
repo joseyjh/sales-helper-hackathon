@@ -44,6 +44,7 @@ class FasterWhisperASR:
         self.audio_buffer = audio_buffer
         self.rate = rate
         self.next_text = ''
+        self.transcriptions = []
         self.chunk = chunk
 
     def transcribe(self):
@@ -66,15 +67,19 @@ class FasterWhisperASR:
             for segment in segments:
                 text += segment.text
 
-            print(text)
+            # print(text)
+            self.transcriptions.append(text)
 
             tokens = word_tokenize(text)
             if len(tokens) > 6:
                 self.next_text = ' '.join(tokens[6:])
                 self.audio_buffer.trim_from_start(segments[-1].end)
 
-            write(f'{time.time()}.wav', self.rate,
-                  (self.audio_buffer.read() * 32768).astype(np.int16))
+            # write(f'{time.time()}.wav', self.rate,
+            #       (self.audio_buffer.read() * 32768).astype(np.int16))
+
+    def get_transcription(self):
+        return self.transcriptions
 
 
 class Microphone:
@@ -116,16 +121,20 @@ class ASRSystem():
     def start(self):
         mic_thread = threading.Thread(
             target=self.mic_listener.start_recording)
-        infer_thread = threading.Thread(
+        transcribe_thread = threading.Thread(
             target=self.asr_inference.transcribe)
 
         mic_thread.start()
-        infer_thread.start()
+        transcribe_thread.start()
 
-        mic_thread.join()
-        infer_thread.join()
+    def get_transcriptions(self):
+        return self.asr_inference.get_transcription()
 
 
 if __name__ == "__main__":
     asr_system = ASRSystem()
     asr_system.start()
+
+    while True:
+        time.sleep(1)
+        print(asr_system.get_transcriptions())

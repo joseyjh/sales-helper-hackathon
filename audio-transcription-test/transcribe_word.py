@@ -3,6 +3,7 @@ Transcribes according to word level
 
 ref:https://www.youtube.com/watch?v=_spinzpEeFM
 """
+from collections import deque
 import pyaudio
 import numpy as np
 from faster_whisper import WhisperModel
@@ -44,7 +45,7 @@ class FasterWhisperASR:
         self.audio_buffer = audio_buffer
         self.rate = rate
         self.next_text = ''
-        self.transcriptions = []
+        self.transcriptions = deque('')
         self.chunk = chunk
 
     def transcribe(self):
@@ -60,6 +61,7 @@ class FasterWhisperASR:
 
             segments = list(segments)
 
+            # If no segments are found, sleep for a while
             if len(segments) == 0:
                 time.sleep(self.chunk / self.rate)
                 continue
@@ -67,22 +69,26 @@ class FasterWhisperASR:
             for segment in segments:
                 text += segment.text
 
-            # print(text)
-            self.transcriptions.append(text)
+            if self.transcriptions and text == self.transcriptions[0]:
+                continue
 
+            self.transcriptions.appendleft(text)
+
+            # If the text is too long, trim the audio buffer
             tokens = word_tokenize(text)
-            if len(tokens) > 6:
+            if len(tokens) > 15:
                 self.next_text = ' '.join(tokens[6:])
                 self.audio_buffer.trim_from_start(segments[-1].end)
-
-            # write(f'{time.time()}.wav', self.rate,
-            #       (self.audio_buffer.read() * 32768).astype(np.int16))
 
     def get_transcription(self):
         return self.transcriptions
 
 
 class Microphone:
+    """
+    Microphone class to record audio from the microphone
+    """
+
     def __init__(self, audio_buffer: AudioBuffer, rate: int, chunk: int):
         self.audio = pyaudio.PyAudio()
         self.audio_buffer = audio_buffer
@@ -98,6 +104,9 @@ class Microphone:
         return (None, pyaudio.paContinue)
 
     def start_recording(self):
+        """
+        Start recording audio from the microphone. Continuously appends audio data to the audio buffer.
+        """
         logger.info("Recording started")
         self.microphone = self.audio.open(
             format=pyaudio.paInt16,

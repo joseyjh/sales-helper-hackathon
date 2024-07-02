@@ -2,5 +2,7 @@ faster_whisper==1.0.1
 loguru==0.7.2
 nltk==3.8.1
 numpy==2.0.0
+openai==1.35.7
 PyAudio==0.2.14
+python-dotenv==1.0.1
 scipy==1.14.0

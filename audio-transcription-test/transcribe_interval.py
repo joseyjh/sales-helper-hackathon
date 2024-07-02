@@ -10,6 +10,7 @@ from loguru import logger
 from scipy.io.wavfile import write
 import threading
 import time
+from pre_rag_prompt import is_relevant
 
 
 class AudioQueue:
@@ -34,11 +35,14 @@ class FasterWhisperASR:
         self.model = WhisperModel("small")
         self.queue = audio_queue
         self.rate = rate
-        self.text = ''
+        self.previous = ''
         self.chunk = chunk
+        self.transcriptions = ''
 
     def transcribe(self):
-        # Transcribes audio from the task queue
+        """
+        Continuously pops audio data from queue and transcribes it.
+        """
         while True:
             if len(self.queue) == 0:
                 time.sleep(0.5)
@@ -48,7 +52,7 @@ class FasterWhisperASR:
 
             segments, info = self.model.transcribe(
                 audio=audio_data,
-                initial_prompt=self.text,
+                initial_prompt=self.previous,
                 language="en",
                 vad_filter=True,
             )
@@ -57,11 +61,14 @@ class FasterWhisperASR:
             for segment in segments:
                 text += segment.text
 
-            print(text)
-            self.text = text
+            self.previous = text
+            self.transcriptions += text
 
-            write(f'{time.time()}.wav', self.rate,
-                  (audio_data * 32768).astype(np.int16))
+    def get_transcriptions(self):
+        return self.transcriptions
+
+    def clear_transcriptions(self):
+        self.transcriptions = ''
 
 
 class Microphone:
@@ -74,6 +81,9 @@ class Microphone:
         logger.info("Microphone initialized")
 
     def _pyaudio_callback(self, in_data, frame_count, time_info, status):
+        """
+        Append audio data to the task queue for transcription
+        """
         audio_data = (np.frombuffer(
             in_data, dtype=np.int16) / 32768).astype(np.float32)
         self.queue.enqueue(audio_data)
@@ -93,7 +103,7 @@ class Microphone:
 
 
 class ASRSystem():
-    def __init__(self, rate=16000, chunk=32000):
+    def __init__(self, rate, chunk):
         self.audio_buffer = AudioQueue()
         self.mic_listener = Microphone(
             self.audio_buffer, rate=rate, chunk=chunk)
@@ -109,10 +119,21 @@ class ASRSystem():
         mic_thread.start()
         infer_thread.start()
 
-        mic_thread.join()
-        infer_thread.join()
+    def get_transcriptions(self):
+        return self.asr_inference.get_transcriptions()
+
+    def clear_transcriptions(self):
+        self.asr_inference.clear_transcriptions()
 
 
 if __name__ == "__main__":
-    asr_system = ASRSystem()
+    rate = 16000
+    chunk = 32000
+    interval = chunk / rate
+    asr_system = ASRSystem(rate=rate, chunk=chunk)
     asr_system.start()
+
+    while True:
+        transcription = asr_system.get_transcriptions()
+        print(transcription)
+        time.sleep(interval)

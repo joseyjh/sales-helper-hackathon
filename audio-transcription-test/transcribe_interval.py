@@ -67,8 +67,8 @@ class FasterWhisperASR:
     def get_transcriptions(self):
         return self.transcriptions
 
-    def clear_transcriptions(self):
-        self.transcriptions = ''
+    def trim_transcriptions(self, length):
+        self.transcriptions = self.transcriptions[length:]
 
 
 class Microphone:
@@ -122,13 +122,13 @@ class ASRSystem():
     def get_transcriptions(self):
         return self.asr_inference.get_transcriptions()
 
-    def clear_transcriptions(self):
-        self.asr_inference.clear_transcriptions()
+    def trim_transcriptions(self, length):
+        self.asr_inference.trim_transcriptions(length)
 
 
 if __name__ == "__main__":
     rate = 16000
-    chunk = 32000
+    chunk = 48000
     interval = chunk / rate
     asr_system = ASRSystem(rate=rate, chunk=chunk)
     asr_system.start()

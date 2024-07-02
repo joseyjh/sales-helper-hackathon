@@ -77,7 +77,7 @@ class FasterWhisperASR:
             # If the text is too long, trim the audio buffer
             tokens = word_tokenize(text)
             if len(tokens) > 15:
-                self.next_text = ' '.join(tokens[6:])
+                self.next_text = ' '.join(tokens[15:])
                 self.audio_buffer.trim_from_start(segments[-1].end)
 
     def get_transcription(self):

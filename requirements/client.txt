@@ -1,0 +1,4 @@
+PyAudio
+ffmpeg-python
+scipy
+websocket-client

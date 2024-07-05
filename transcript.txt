@@ -1,0 +1,7 @@
+ Is it possible to make it so that I mean it's possible to make it so that your code
+ Just let me bend directly, right?
+ Just unmute the event directly, right?
+ Just what?
+ OK, so the thing responsible for sending data to the front end.
+ Is this particular line socket?
+ Yeah.

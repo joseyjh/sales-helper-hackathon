@@ -1,9 +1,6 @@
 from .pre_rag_prompt import is_relevant
-<<<<<<< Updated upstream
 import socketio
-=======
 from .rag import RAG
->>>>>>> Stashed changes
 
 
 class TranscriptProcessor():
@@ -11,12 +8,9 @@ class TranscriptProcessor():
         self.working_memory = ''
         self.memory = []
         self.previous_transcript = None
-<<<<<<< Updated upstream
         self.sio = socketio.SimpleClient()
         self.sio.connect('http://localhost:8765')
-=======
         self.rag = RAG()
->>>>>>> Stashed changes
 
     def process_transcripts(self, transcript):
         max_char = 120

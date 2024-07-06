@@ -54,7 +54,7 @@ const App: React.FC = () => {
   return (
     <div className="App h-screen bg-black flex flex-col justify-center items-center">
       <div className="grid grid-cols-4 w-full h-full">
-        <div className="col-span-3 bg-blue-100 flex justify-center items-center">
+        <div className="w-full h-full col-span-3 bg-blue-100 flex justify-center items-center">
           <div className="w-full h-full flex items-center justify-center">
             <VideoCall />
             <ConnectingComponent addMessage={addMessage} />

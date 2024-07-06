@@ -134,9 +134,10 @@ class Client:
                 f.write('\n')
 
         # Truncate to last 3 entries for brevity.
-        text = text[-3:]
+        # text = text[-3:]
         # utils.clear_screen()
         # utils.print_transcript(text)
+        # print(text)
         # print(self.transcript)
         if self.transcript:
             self.transcript_processor.process_transcripts(self.transcript)

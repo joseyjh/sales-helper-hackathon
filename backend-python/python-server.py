@@ -18,15 +18,14 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 @socketio.on('connect')
 def handle_connect():
     print("New client connected")
-
-    def send_messages():
-        while not thread_stop_event.is_set():
-            content = {
-                'timestamp': time.time(),
-                'message': "Hello from the server!"
-            }
-            socketio.emit('message', content)
-            socketio.sleep(1)
+    # def send_messages():
+    #     while not thread_stop_event.is_set():
+    #         content = {
+    #             'timestamp': time.time(),
+    #             'message': "Hello from the server!"
+    #         }
+    #         socketio.emit('message', content)
+    #         socketio.sleep(1)
 
     # global thread_stop_event
     # thread_stop_event = Event()

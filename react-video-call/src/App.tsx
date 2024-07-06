@@ -57,7 +57,7 @@ const App: React.FC = () => {
         <div className="col-span-3 bg-blue-100 flex justify-center items-center">
           <div className="w-full h-full flex items-center justify-center">
             <VideoCall />
-            <ConnectingComponent />
+            <ConnectingComponent addMessage={addMessage} />
           </div>
         </div>
         <div className="col-span-1 bg-white p-2 flex flex-col items-center shadow-lg h-full">

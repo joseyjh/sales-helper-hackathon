@@ -1,9 +1,6 @@
 from .pre_rag_prompt import is_relevant
-<<<<<<< Updated upstream
 import socketio
-=======
 from .rag import RAG
->>>>>>> Stashed changes
 
 
 class TranscriptProcessor():
@@ -11,12 +8,9 @@ class TranscriptProcessor():
         self.working_memory = ''
         self.memory = []
         self.previous_transcript = None
-<<<<<<< Updated upstream
-        self.sio = socketio.SimpleClient()
-        self.sio.connect('http://localhost:8765')
-=======
+        # self.sio = socketio.SimpleClient()
+        # self.sio.connect('http://localhost:8765')
         self.rag = RAG()
->>>>>>> Stashed changes
 
     def process_transcripts(self, transcript):
         max_char = 120
@@ -50,6 +44,7 @@ class TranscriptProcessor():
         # Otherwise new text will be appended to working memory
         print(f'{self.working_memory} (Y)')
         if len(self.working_memory) > max_char:
-            # print('PERFORM ACTION')  # TODO: Perform action
-            self.sio.emit("message event", { "message": "this is a message" })
+            print("PROCESSING QUERY")
+            print(self.rag.process_query(self.working_memory))
+            # self.sio.emit("message event", {"message": "this is a message"})
             self.working_memory = ''

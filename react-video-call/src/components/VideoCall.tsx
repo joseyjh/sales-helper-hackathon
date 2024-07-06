@@ -32,7 +32,7 @@ export default function VideoCall () {
 export const MyParticipantList = (props: { participants: StreamVideoParticipant[] }) => {
   const { participants } = props;
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+    <div style={{ display: 'flex', flexDirection: 'row', gap: "8px", height: "100vh", width: "100vw" }}>
       {participants.map((participant) => (
         <ParticipantView participant={participant} key={participant.sessionId} />
       ))}

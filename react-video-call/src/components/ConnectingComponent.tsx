@@ -39,9 +39,6 @@ export const ConnectingComponent = ({ addMessage }) => {
 
   return (
     <div>
-        {/* <h2 style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%"}}>Websocket Client</h2>
-        <h2 style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%"}}>{content.timestamp}</h2>
-        <h2 style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%"}}>{content.message}</h2> */}
     </div>
   )
 }

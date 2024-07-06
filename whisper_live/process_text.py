@@ -8,8 +8,8 @@ class TranscriptProcessor():
         self.working_memory = ''
         self.memory = []
         self.previous_transcript = None
-        # self.sio = socketio.SimpleClient()
-        # self.sio.connect('http://localhost:8765')
+        self.sio = socketio.SimpleClient()
+        self.sio.connect('http://localhost:8765')
         self.rag = RAG()
 
     def process_transcripts(self, transcript):
@@ -45,6 +45,6 @@ class TranscriptProcessor():
         print(f'{self.working_memory} (Y)')
         if len(self.working_memory) > max_char:
             print("PROCESSING QUERY")
-            print(self.rag.process_query(self.working_memory))
-            # self.sio.emit("message event", {"message": "this is a message"})
+            output = self.rag.process_query(self.working_memory)
+            self.sio.emit("message event", {"message": output})
             self.working_memory = ''

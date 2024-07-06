@@ -8,25 +8,25 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 template = """
-2.Discovery
+1.Discovery
 - Current Situation
 - Challenges
 - Impact
 - Existing Solutions
 
-3.Presentation
+2.Presentation
 - Value Proposition
 - Customization
 - Features and Benefits
 - Demonstration (if applicable)
 
-4.Handling Objections
+3.Handling Objections
 - Adoption Concerns
 - Ease of Use
 - Support
 - Pricing
 
-5.Closing
+4.Closing
 Summary
 Proposal
 Assumptive Close

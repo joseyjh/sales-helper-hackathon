@@ -1,12 +1,12 @@
-from threading import Event
-from flask_cors import CORS
-from flask_socketio import SocketIO
-from flask import Flask
 import time
 import eventlet
 
 eventlet.monkey_patch()
 
+from flask import Flask
+from flask_socketio import SocketIO
+from flask_cors import CORS
+from threading import Event
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'

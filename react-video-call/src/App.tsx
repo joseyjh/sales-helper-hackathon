@@ -45,8 +45,8 @@ const App: React.FC = () => {
 
   const addMessage = (newMessage: MessageType) => {
     setMessages(prevMessages => {
-      const updatedMessages = [...prevMessages, newMessage];
-      return updatedMessages.length > 5 ? updatedMessages.slice(-5) : updatedMessages;
+      const updatedMessages = [newMessage, ...prevMessages];
+      return updatedMessages.length > 3 ? updatedMessages.slice(0, 3) : updatedMessages;
     });
   };
 

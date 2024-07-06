@@ -2,6 +2,7 @@ from collections import deque
 from .pre_rag_prompt import is_relevant
 import socketio
 from .rag import RAG
+from nltk import sent_tokenize
 
 # Store user and response
 
@@ -44,7 +45,7 @@ class TranscriptProcessor():
         if self.previous_transcript and transcript[-1]['text'] == self.previous_transcript:
             self.repeat_count += 1
 
-            if self.repeat_count > 5 and is_relevant(self.previous_transcript) and not self.silence_processed:
+            if self.repeat_count > 10 and is_relevant(self.previous_transcript) and not self.silence_processed:
                 print("PROCESSING QUERY")
                 self.process_query()
                 self.repeat_count = 0

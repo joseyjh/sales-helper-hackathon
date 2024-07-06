@@ -139,6 +139,8 @@ class Client:
         # utils.print_transcript(text)
         # print(text)
         # print(self.transcript)
+        # if text:
+        #     self.transcript_processor.process_text(''.join(text))
         if self.transcript:
             self.transcript_processor.process_transcripts(self.transcript)
 

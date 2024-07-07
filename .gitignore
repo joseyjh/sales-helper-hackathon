@@ -1,0 +1,6 @@
+audio-transcription-test/__pycache__/
+output.srt
+output.txt
+output_recording.wav
+transcript.txt
+.env

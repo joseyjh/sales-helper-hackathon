@@ -51,8 +51,6 @@ Sales teams use customer relationship management (CRM) systems to help manage th
 
 ###  Data Flow
 
-![Data Flow](images/DataFlow.png)
-
 1️⃣ Faster-Whisper: WhisperLive  
 We utilized the WhisperLive library in order to implement the ASR component of our solution. 
 

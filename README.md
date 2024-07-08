@@ -69,8 +69,8 @@ The generation is then pushed to the front end to aid the client-facing user as 
 
 ### Solution Architecture Diagram:
 
-## General Flow
+#### General Flow
 ![RAG2](images/RAG2.jpg)
 
-## RAG Flow
+#### RAG Flow
 ![RAG1](images/RAG1.jpg)

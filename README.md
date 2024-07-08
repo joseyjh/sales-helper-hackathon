@@ -67,6 +67,6 @@ A filter was created using openAI to see if the transcriptions coming in were wo
 4️⃣ Saleshelper Bot Insight
 The generation is then pushed to the front end to aid the client-facing user as an insight.
 
-### Additional overview of the decision process can be understood with the following diagrams:
+### Solution Architecture Diagram:
 ![RAG1](images/RAG1.jpg)
 ![RAG2](images/RAG2.jpg)
